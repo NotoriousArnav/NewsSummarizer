@@ -1,5 +1,6 @@
 from nltk.corpus import stopwords
 from bs4 import BeautifulSoup
+from urllib.parse import *
 import feedparser
 import requests
 import heapq
@@ -13,9 +14,15 @@ def article_extracter(link):
         soup = BeautifulSoup(data.content, 'lxml')
     except:
         return 
-    title = soup.find('title').text
-    article = soup.find_all('article')[0].text
-    return title, article
+    url_parsed = urlparse(link).netloc
+    supported_sources = ['www.dnaindia.com', 'www.indiatoday.in', 'www.indianexpress.com', 'indianexpress.com', 'www.news18.com', 'www.ndtv.com', 'gadgets.ndtv.com', 'sports.ndtv.com']
+    if url_parsed not in supported_sources:
+        return 'Bhag'
+    if url_parsed in (supported_sources[2], supported_sources[3]):
+        article = ''.join([x.text for x in soup.find_all('p')])
+        title = soup.find('title').text
+        return title, article
+    return soup.find('title').text, soup.find('article').text
 
 def get_feed(link):
     try:

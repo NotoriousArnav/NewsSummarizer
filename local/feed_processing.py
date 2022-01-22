@@ -22,14 +22,16 @@ def article_extracter(link):
         article = ''.join([x.text for x in soup.find_all('p')])
         title = soup.find('title').text
         return title, article
-    return soup.find('title').text, soup.find('article').text
+    title = soup.find('title').text
+    article = soup.find('article').text
+    return title, article
 
 def get_feed(link):
     try:
         feed = feedparser.parse(link)
     except:
         return None
-    return [x.link for x in feed.entries]
+    return [(x.title, x.link) for x in feed.entries]
 
 def summarize(article):
     sentence_list = nltk.sent_tokenize(article.replace("\n",''))

@@ -9,6 +9,7 @@ try:
                 docs
             )
     app.register_blueprint(api.app)
-    app.r3gister_blueprint(docs.app)
-except:
+    app.register_blueprint(docs.app)
+except Exception as e:
     print('could not import blueprints')
+    print(e)

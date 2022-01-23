@@ -15,7 +15,7 @@ def bg_thread():
     while True:
         for x in rss_channels:
             print('Downloading ',x)
-            links.append(get_feed(x))
+            links.append([(y[0], y[1], base64.b64encode(y[1].encode()).decode()) for y in get_feed(x)])
         print(len(links),'\n', ''.join([str(len(x)) for x in links]))
         time.sleep(1*60)
         links.clear()

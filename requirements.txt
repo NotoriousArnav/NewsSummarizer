@@ -1,0 +1,7 @@
+nltk
+feedparser
+bs4
+lxml
+flask
+requests
+re
